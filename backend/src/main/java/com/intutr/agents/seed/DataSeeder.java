@@ -69,7 +69,7 @@ public class DataSeeder implements CommandLineRunner {
                 String err = "COMPLETED".equals(status) ? null : "BUDGET_EXCEEDED".equals(status) ? "budget_exceeded" : ERRS[rnd.nextInt(ERRS.length)];
                 int tokens = 500 + rnd.nextInt(3500);
                 double cost = tokens * 0.000002;
-                int hoursAgo = rnd.nextInt(72);
+                int hoursAgo = 1 + rnd.nextInt(71);
                 jdbc.update("INSERT INTO agent_run(id,tenant_id,agent,status,input,output,error_type,total_tokens,cost_usd,duration_ms,user_id,correlation_id,config_hash,created_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?, now() - (? * interval '1 hour'))",
                     id, tenant, agent, status, "[seed] sample question " + (i + 1), "COMPLETED".equals(status) ? "[seed] sample answer" : null, err, tokens, cost,
                     600 + rnd.nextInt(5000), "u" + (1 + rnd.nextInt(NAMES.length)), "seed" + i, "seedseedseed", hoursAgo);

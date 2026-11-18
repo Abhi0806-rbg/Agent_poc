@@ -54,6 +54,14 @@ public final class ConfigValidator {
             if (a.prompt() == null || !s.prompts().containsKey(a.prompt())) e.add("agent " + k + ": prompt '" + a.prompt() + "' not found (use name or name@version)");
             if (a.tools() != null) a.tools().forEach(t -> { if (!s.tools().containsKey(t)) e.add("agent " + k + ": tool '" + t + "' not found"); });
             if (a.skills() != null) a.skills().forEach(t -> { if (!s.skills().containsKey(t)) e.add("agent " + k + ": skill '" + t + "' not found"); });
+            if ("quiz-coach".equals(k) && Boolean.TRUE.equals(a.enabled())) e.add("agent quiz-coach: cannot be enabled until quiz evaluation is approved");
+        });
+        if (s.retrieval() != null && s.retrieval().pairs() != null) s.retrieval().pairs().forEach(p -> {
+            if (p.query() == null || p.query().isBlank()) e.add("retrieval_eval: query is required");
+            if (Boolean.TRUE.equals(p.expectNoResults()) && (p.expectedTitle() != null || (p.expectedTitles() != null && !p.expectedTitles().isEmpty())))
+                e.add("retrieval_eval: expect_no_results cannot be combined with expected titles");
+            if (!Boolean.TRUE.equals(p.expectNoResults()) && p.expectedTitle() == null && (p.expectedTitles() == null || p.expectedTitles().isEmpty()))
+                e.add("retrieval_eval: expected_title(s) required unless expect_no_results is true");
         });
         if (e.isEmpty()) e.addAll(cycles(s));
         return e;

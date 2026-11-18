@@ -23,6 +23,6 @@ public final class Cfg {
                              List<String> approvalsRequiredFor) {}
     public record EvalCase(String id, String input, List<String> callsTools, List<String> notCallsTools, List<String> answerNotContains, Integer maxSteps) {}
     public record EvalSet(String agent, List<EvalCase> cases) {}
-    public record RetrievalPair(String query, String expectedTitle) {}
+    public record RetrievalPair(String query, String expectedTitle, List<String> expectedTitles, Boolean expectNoResults) {}
     public record RetrievalEval(List<RetrievalPair> pairs) {}
 }

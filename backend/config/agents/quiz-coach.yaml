@@ -1,6 +1,6 @@
 name: quiz-coach
 enabled: false
-description: Quiz practice (disabled by default)
+description: Grounded quiz practice and answer coaching (disabled pending evaluation)
 model: fast
 prompt: quiz@1
 tools: [search_content]

@@ -11,6 +11,7 @@ public class Retrieval {
     private final JdbcTemplate jdbc;
     private final Embedders embedders;
     public Retrieval(JdbcTemplate jdbc, Embedders embedders) { this.jdbc = jdbc; this.embedders = embedders; }
+    public String modelId() { return embedders.current().modelId(); }
 
     public List<Map<String, Object>> search(String tenant, String collection, String query, int topK, double minScore) {
         String vec = Embedders.toVector(embedders.current().embed(query));
@@ -29,6 +30,11 @@ public class Retrieval {
             out.add(o);
         }
         return out;
+    }
+
+    public int collectionSize(String tenant, String collection) {
+        Integer count = jdbc.queryForObject("SELECT count(*) FROM knowledge_chunk WHERE tenant_id = ? AND collection = ?", Integer.class, tenant, collection);
+        return count == null ? 0 : count;
     }
 
     /** Re-embeds every chunk with the current embedder (use after adding a real API key). */

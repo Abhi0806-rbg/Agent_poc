@@ -3,6 +3,10 @@ type: http
 description: Send an email (mock endpoint in the POC)
 method: POST
 url: "mock://email"
+# Production setup: replace mock://email only after choosing an HTTP provider. Add
+# that provider's exact API hostname to guardrails.yaml http_allowed_hosts; the
+# URL must be HTTPS and the provider's authentication/secret handling configured.
+# Do not use wildcard hosts or permit arbitrary outbound URLs.
 # requires_approval is intentionally NOT set here.
 # Approval is enforced centrally via guardrails.yaml → approvals_required_for: [send_email]
 params:
