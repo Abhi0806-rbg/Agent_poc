@@ -31,7 +31,7 @@ public class MockClient implements LlmClient {
         int in = tokens(ms) + extra;
 
         if ("tool".equals(last.role())) {
-            String text = "(mock) Here is what I found: " + J.clip(last.content(), 400);
+            String text = summarizeToolResult(last.content());
             return new LlmResponse(text, List.of(), in, est(text), "stop", true);
         }
         ToolSpec pick = pickTool(low, r.tools());
@@ -43,6 +43,29 @@ public class MockClient implements LlmClient {
         }
         String text = "(mock, no API keys) You asked: \"" + J.clip(user, 200) + "\". Add provider keys in .env for real answers.";
         return new LlmResponse(text, List.of(), in, est(text), "stop", true);
+    }
+
+    private static String summarizeToolResult(String raw) {
+        try {
+            var node = J.OM.readTree(raw);
+            if (node.isArray() && !node.isEmpty()) {
+                List<String> lines = new ArrayList<>();
+                List<String> titles = new ArrayList<>();
+                for (var doc : node) {
+                    String title = doc.path("title").asText("");
+                    String text = doc.path("text").asText("");
+                    if (!text.isBlank()) lines.add(text);
+                    if (!title.isBlank() && !titles.contains(title)) titles.add(title);
+                }
+                if (!lines.isEmpty()) return String.join(" ", lines) + (titles.isEmpty() ? "" : " Sources: " + String.join("; ", titles));
+            }
+            if (node.isObject()) {
+                if (node.has("status") && node.has("to")) return "Email status: " + node.path("status").asText();
+                if (node.has("total")) return "Found " + node.path("total").asText() + " matching records.";
+                return "The tool returned a structured result. Summarize its useful facts in a concise natural-language answer without showing JSON.";
+            }
+        } catch (Exception ignored) { }
+        return raw;
     }
 
     private static ToolSpec pickTool(String low, List<ToolSpec> tools) {

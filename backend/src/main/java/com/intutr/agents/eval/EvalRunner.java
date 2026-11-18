@@ -40,11 +40,11 @@ public class EvalRunner {
                 RunCtx ctx = new RunCtx();
                 ctx.tenant = tenant; ctx.userId = "u1"; ctx.userName = trace.userName(tenant, "u1"); ctx.role = "Admin";
                 RunResult r = engine.run(set.agent(), c.input(), null, ctx);
-                Set<String> called = new HashSet<>(trace.jdbc.queryForList("SELECT name FROM agent_step WHERE run_id=? AND type='tool'", String.class, r.runId()));
-                List<String> pendingTools = trace.jdbc.queryForList("SELECT tool FROM approval WHERE run_id=? AND status='PENDING'", String.class, r.runId());
+                Set<String> called = new HashSet<>(trace.jdbc().queryForList("SELECT name FROM agent_step WHERE run_id=? AND type='tool'", String.class, r.runId()));
+                List<String> pendingTools = trace.jdbc().queryForList("SELECT tool FROM approval WHERE run_id=? AND status='PENDING'", String.class, r.runId());
                 called.addAll(pendingTools);
                 if (r.approvalId() != null) engine.resume(r.approvalId(), false, "eval"); // keep the demo queue clean
-                int llmSteps = trace.jdbc.queryForObject("SELECT count(*) FROM agent_step WHERE run_id=? AND type='llm'", Integer.class, r.runId());
+                int llmSteps = trace.jdbc().queryForObject("SELECT count(*) FROM agent_step WHERE run_id=? AND type='llm'", Integer.class, r.runId());
                 List<String> fails = new ArrayList<>();
                 if (c.callsTools() != null) for (String t : c.callsTools()) if (!called.contains(t)) fails.add("expected tool " + t);
                 if (c.notCallsTools() != null) for (String t : c.notCallsTools()) if (called.contains(t)) fails.add("forbidden tool " + t);
@@ -91,10 +91,16 @@ public class EvalRunner {
         rep.put("questionBeingEvaluated", "Do the configured agents call the right tools, respect guardrails and stay in budget, and does retrieval find the right content?");
         rep.put("baseline", live ? "Live providers are configured. No stored baseline yet: run again after a config change and compare." : "Mock provider (no API keys). Numbers describe the plumbing, NOT model quality.");
         String embedder = retrieval.modelId();
-        rep.put("metrics", Map.of("agentCasesPassed", pass, "agentCasesTotal", total, "retrievalRecallAt1", pairs == 0 ? 0 : (double) hitsAt1 / Math.max(1, pairs - noResultCases),
-            "retrievalRecallAt3", pairs == 0 ? 0 : (double) hitsAt3 / Math.max(1, pairs - noResultCases), "retrievalRecallAt5", pairs == 0 ? 0 : (double) hitsAt5 / Math.max(1, pairs - noResultCases),
-            "retrievalMRR", pairs == 0 ? 0 : rr / Math.max(1, pairs - noResultCases), "retrievalNoResultAccuracy", noResultCases == 0 ? 0 : (double) noResultCorrect / noResultCases,
-            "retrievalPairs", pairs, "retrievalEmbedder", embedder, "totalTokens", tokens, "totalCostUsd", cost, "p95LatencyMs", p95));
+        Map<String, Object> metrics = new LinkedHashMap<>();
+        metrics.put("agentCasesPassed", pass); metrics.put("agentCasesTotal", total);
+        metrics.put("retrievalRecallAt1", pairs == 0 ? 0 : (double) hitsAt1 / Math.max(1, pairs - noResultCases));
+        metrics.put("retrievalRecallAt3", pairs == 0 ? 0 : (double) hitsAt3 / Math.max(1, pairs - noResultCases));
+        metrics.put("retrievalRecallAt5", pairs == 0 ? 0 : (double) hitsAt5 / Math.max(1, pairs - noResultCases));
+        metrics.put("retrievalMRR", pairs == 0 ? 0 : rr / Math.max(1, pairs - noResultCases));
+        metrics.put("retrievalNoResultAccuracy", noResultCases == 0 ? 0 : (double) noResultCorrect / noResultCases);
+        metrics.put("retrievalPairs", pairs); metrics.put("retrievalEmbedder", embedder);
+        metrics.put("totalTokens", tokens); metrics.put("totalCostUsd", cost); metrics.put("p95LatencyMs", p95);
+        rep.put("metrics", metrics);
         rep.put("confidence", total < 30 ? "Low: " + total + " cases and " + pairs + " retrieval pairs are too few for statistical claims. Treat as a smoke test." : "Moderate");
         rep.put("gapToRealWorld", "Cases are hand-written and run as one demo user. They do not cover real learner phrasing, long conversations, or concurrent load.");
         rep.put("cases", cases);

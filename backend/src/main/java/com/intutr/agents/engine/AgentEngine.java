@@ -107,9 +107,10 @@ public class AgentEngine {
                     "tokens", resp.promptTokens() + resp.completionTokens());
                 if (over(st, lim)) return fail(ctx, st, t0, "budget_exceeded", "Token or cost budget exceeded");
                 if (resp.toolCalls().isEmpty()) {
+                    String userText = ResponseFormatter.userFacing(resp.text());
                     long ms = st.elapsed + System.currentTimeMillis() - t0;
-                    trace.finishRun(ctx.runId, "COMPLETED", resp.text(), null, null, st.tokens, st.cost, ms, null);
-                    return new RunResult(ctx.runId, "COMPLETED", resp.text(), null, st.tokens, st.cost, ms, null);
+                    trace.finishRun(ctx.runId, "COMPLETED", userText, null, null, st.tokens, st.cost, ms, null);
+                    return new RunResult(ctx.runId, "COMPLETED", userText, null, st.tokens, st.cost, ms, null);
                 }
                 st.messages.add(Msg.assistant(resp.text(), resp.toolCalls()));
                 st.pending = new ArrayList<>(resp.toolCalls());

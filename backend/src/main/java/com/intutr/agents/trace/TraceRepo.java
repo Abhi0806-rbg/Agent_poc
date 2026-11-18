@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 public class TraceRepo {
     private final JdbcTemplate jdbc;
     public TraceRepo(JdbcTemplate jdbc) { this.jdbc = jdbc; }
+    public JdbcTemplate jdbc() { return jdbc; }
 
     public void createRun(String id, String tenant, String agent, String input, String userId, String parent, String corr, String hash, String chatId) {
         jdbc.update("INSERT INTO agent_run(id,tenant_id,agent,status,input,user_id,parent_run_id,correlation_id,config_hash,chat_id) VALUES (?,?,?,'RUNNING',?,?,?,?,?,?)",
