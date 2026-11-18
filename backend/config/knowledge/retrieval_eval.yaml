@@ -1,10 +1,15 @@
-# SMOKE TEST ONLY: written by the same author as the chunks, so many words overlap and a keyword embedder scores 8/8. Replace with real learner questions before trusting recall numbers.
+# Labeled learner-style queries. Results are evaluated with the active embedder;
+# HashEmbedder is diagnostic only and cannot establish production retrieval quality.
 pairs:
-  - { query: "Which part of the Constitution protects freedom of speech and equality?", expected_title: "Fundamental Rights" }
-  - { query: "Welfare goals the state should follow but courts cannot enforce", expected_title: "Directive Principles of State Policy" }
-  - { query: "How is power split between the Centre and the states?", expected_title: "Federalism in India" }
-  - { query: "Why does the rainy season matter for Indian farming?", expected_title: "Indian Monsoon" }
-  - { query: "Early urban civilization with planned cities like Harappa", expected_title: "Indus Valley Civilization" }
-  - { query: "Which emperor spread Buddhism after the Kalinga war?", expected_title: "Mauryan Empire" }
-  - { query: "Why do prices rise across the economy over time?", expected_title: "Inflation" }
-  - { query: "International pact to limit global temperature rise", expected_title: "Climate Change and the Paris Agreement" }
+  - { query: "If a government restricts peaceful criticism, what constitutional protections might citizens rely on?", expected_title: "Fundamental Rights" }
+  - { query: "Can someone go to court to force the government to follow its social welfare goals?", expected_title: "Directive Principles of State Policy" }
+  - { query: "Why can both Parliament and a state legislature make laws about some of the same subjects?", expected_title: "Federalism in India" }
+  - { query: "A farmer's sowing depends on seasonal rain arriving on time. Which Indian weather pattern is most relevant, and when does most of that rain fall?", expected_title: "Indian Monsoon" }
+  - { query: "What evidence from city planning suggests that people in the Indus region organized urban life carefully?", expected_title: "Indus Valley Civilization" }
+  - { query: "After the devastating eastern campaign, which Mauryan ruler changed course and promoted a faith?", expected_title: "Mauryan Empire" }
+  - { query: "My monthly budget buys fewer groceries even though I shop at the same stores. What broad economic change could explain this?", expected_title: "Inflation" }
+  - { query: "How are countries meant to set and report their own climate actions under the global warming accord?", expected_title: "Climate Change and the Paris Agreement" }
+  - { query: "What is the difference between a perennial Himalayan river and a peninsular river during a dry season?", expected_title: "Rivers of India" }
+  - { query: "How does the Constitution's opening statement describe the kind of republic India intends to be?", expected_title: "Preamble of the Constitution" }
+  - { query: "Which institution can invalidate legislation that conflicts with constitutional limits?", expected_title: "Judicial Review" }
+  - { query: "What caused the French Revolution?", expect_no_results: true }

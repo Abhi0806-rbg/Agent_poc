@@ -60,13 +60,28 @@ public class EvalRunner {
                 cases.add(row);
             }
         }
-        // retrieval: recall@5 and MRR
-        int hits = 0; double rr = 0; int pairs = 0;
+        // Retrieval metrics use the active configured embedder. A single expectedTitle
+        // remains supported for existing evaluation files.
+        int hitsAt1 = 0, hitsAt3 = 0, hitsAt5 = 0, noResultCorrect = 0, noResultCases = 0; double rr = 0; int pairs = 0;
+        List<Map<String, Object>> retrievalCases = new ArrayList<>();
         if (cfg.retrieval() != null && cfg.retrieval().pairs() != null) {
             for (RetrievalPair p : cfg.retrieval().pairs()) {
                 pairs++;
-                var res = retrieval.search(tenant, "lob_content", p.query(), 5, 0.0);
-                for (int i = 0; i < res.size(); i++) if (p.expectedTitle().equals(res.get(i).get("title"))) { hits++; rr += 1.0 / (i + 1); break; }
+                var res = retrieval.search(tenant, "lob_content", p.query(), retrieval.collectionSize(tenant, "lob_content"), 0.0);
+                Set<String> expected = new LinkedHashSet<>();
+                if (p.expectedTitle() != null) expected.add(p.expectedTitle());
+                if (p.expectedTitles() != null) expected.addAll(p.expectedTitles());
+                boolean noneExpected = Boolean.TRUE.equals(p.expectNoResults());
+                int rank = 0;
+                if (!noneExpected) for (int i = 0; i < res.size(); i++) if (expected.contains(String.valueOf(res.get(i).get("title")))) { rank = i + 1; break; }
+                if (rank > 0) { if (rank <= 1) hitsAt1++; if (rank <= 3) hitsAt3++; if (rank <= 5) hitsAt5++; rr += 1.0 / rank; }
+                boolean noResultCorrectCase = (noneExpected || expected.isEmpty())
+                    && (res.isEmpty() || res.get(0).get("score") instanceof Number score && score.doubleValue() < 0.15);
+                if (noneExpected) { noResultCases++; if (noResultCorrectCase) noResultCorrect++; }
+                else if (expected.isEmpty()) { noResultCases++; if (res.isEmpty()) noResultCorrect++; }
+                retrievalCases.add(Map.of("query", p.query(), "expectedTitles", expected, "expectNoResults", noneExpected,
+                    "topTitles", res.stream().limit(5).map(r -> String.valueOf(r.get("title"))).toList(), "relevantRank", rank,
+                    "passed", noneExpected ? noResultCorrectCase : rank > 0));
             }
         }
         Collections.sort(lat);
@@ -75,11 +90,17 @@ public class EvalRunner {
         rep.put("ranAt", Instant.now().toString());
         rep.put("questionBeingEvaluated", "Do the configured agents call the right tools, respect guardrails and stay in budget, and does retrieval find the right content?");
         rep.put("baseline", live ? "Live providers are configured. No stored baseline yet: run again after a config change and compare." : "Mock provider (no API keys). Numbers describe the plumbing, NOT model quality.");
-        rep.put("metrics", Map.of("agentCasesPassed", pass, "agentCasesTotal", total, "retrievalRecallAt5", pairs == 0 ? 0 : (double) hits / pairs,
-            "retrievalMRR", pairs == 0 ? 0 : rr / pairs, "retrievalPairs", pairs, "totalTokens", tokens, "totalCostUsd", cost, "p95LatencyMs", p95));
+        String embedder = retrieval.modelId();
+        rep.put("metrics", Map.of("agentCasesPassed", pass, "agentCasesTotal", total, "retrievalRecallAt1", pairs == 0 ? 0 : (double) hitsAt1 / Math.max(1, pairs - noResultCases),
+            "retrievalRecallAt3", pairs == 0 ? 0 : (double) hitsAt3 / Math.max(1, pairs - noResultCases), "retrievalRecallAt5", pairs == 0 ? 0 : (double) hitsAt5 / Math.max(1, pairs - noResultCases),
+            "retrievalMRR", pairs == 0 ? 0 : rr / Math.max(1, pairs - noResultCases), "retrievalNoResultAccuracy", noResultCases == 0 ? 0 : (double) noResultCorrect / noResultCases,
+            "retrievalPairs", pairs, "retrievalEmbedder", embedder, "totalTokens", tokens, "totalCostUsd", cost, "p95LatencyMs", p95));
         rep.put("confidence", total < 30 ? "Low: " + total + " cases and " + pairs + " retrieval pairs are too few for statistical claims. Treat as a smoke test." : "Moderate");
         rep.put("gapToRealWorld", "Cases are hand-written and run as one demo user. They do not cover real learner phrasing, long conversations, or concurrent load.");
         rep.put("cases", cases);
+        rep.put("retrievalCases", retrievalCases);
+        if (embedder.toLowerCase(Locale.ROOT).contains("hash")) rep.put("retrievalQualityClaim", "HashEmbedder/mock results are diagnostic only; they do not establish production retrieval quality.");
+        else rep.put("retrievalQualityClaim", "Results use configured embedder " + embedder + "; interpret against these labeled cases, not as general production quality.");
         latest.set(rep);
         return rep;
     }
