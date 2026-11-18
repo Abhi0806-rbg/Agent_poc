@@ -77,4 +77,22 @@ class Phase3ReadinessTest {
             assertTrue(hoursAgo >= 1 && hoursAgo <= 71);
         }
     }
+
+    @Test void moduleYamlSaveValidatesAndRollsBackInvalidChanges() throws Exception {
+        String original = cfg.moduleYaml("prompts", "advisor.yaml");
+        String updated = original.replace("You are the learning advisor", "You are the study advisor");
+        assertEquals(List.of(), cfg.saveModuleYaml("prompts", "advisor.yaml", updated));
+        assertTrue(cfg.moduleYaml("prompts", "advisor.yaml").contains("study advisor"));
+        assertFalse(cfg.saveModuleYaml("prompts", "advisor.yaml", "not: [valid").isEmpty());
+        assertEquals(updated, cfg.moduleYaml("prompts", "advisor.yaml"));
+        assertFalse(cfg.saveModuleYaml("prompts", "../guardrails.yaml", original).isEmpty());
+        assertEquals(List.of(), cfg.saveModuleYaml("prompts", "advisor.yaml", original));
+    }
+
+    @Test void singletonConfigSourceAndValidationAreAvailable() {
+        assertTrue(cfg.singletonYaml("guardrails").contains("approvals_required_for"));
+        assertTrue(cfg.singletonYaml("models").contains("models:"));
+        assertFalse(cfg.saveSingletonYaml("models", "models: {}\n").isEmpty());
+        assertNotNull(cfg.model("fast"));
+    }
 }

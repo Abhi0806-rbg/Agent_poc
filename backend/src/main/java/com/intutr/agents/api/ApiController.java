@@ -107,6 +107,41 @@ public class ApiController {
     @GetMapping("/skills") public Collection<SkillDef> skills() { return cfg.skills().values(); }
     @GetMapping("/guardrails") public Guardrails guardrails() { return cfg.guardrails(); }
 
+    @GetMapping("/config/source/{module}")
+    public Map<String, Object> singletonConfigSource(@PathVariable String module, @RequestHeader(value = R, defaultValue = "Developer") String role) {
+        Roles.require(role, "Developer", "Admin");
+        return Map.of("yaml", cfg.singletonYaml(module));
+    }
+
+    @GetMapping("/config/source/{module}/{fileName}")
+    public Map<String, Object> moduleConfigSource(@PathVariable String module, @PathVariable String fileName,
+                                                  @RequestHeader(value = R, defaultValue = "Developer") String role) {
+        Roles.require(role, "Developer", "Admin");
+        return Map.of("yaml", cfg.moduleYaml(module, fileName));
+    }
+
+    @GetMapping("/evals/config")
+    public List<Map<String, Object>> evalConfigs(@RequestHeader(value = R, defaultValue = "Developer") String role) {
+        Roles.require(role, "Developer", "Admin");
+        return cfg.evalConfigs();
+    }
+
+    @PutMapping(value = "/config/{module}/{fileName}", consumes = {"text/plain", "application/yaml"})
+    public Map<String, Object> saveModuleConfig(@PathVariable String module, @PathVariable String fileName, @RequestBody String yaml,
+                                                @RequestHeader(value = R, defaultValue = "Developer") String role) {
+        Roles.require(role, "Developer", "Admin");
+        List<String> errors = cfg.saveModuleYaml(module, fileName, yaml);
+        return Map.of("ok", errors.isEmpty(), "errors", errors);
+    }
+
+    @PutMapping(value = "/config/{module}", consumes = {"text/plain", "application/yaml"})
+    public Map<String, Object> saveSingletonConfig(@PathVariable String module, @RequestBody String yaml,
+                                                   @RequestHeader(value = R, defaultValue = "Developer") String role) {
+        Roles.require(role, "Developer", "Admin");
+        List<String> errors = cfg.saveSingletonYaml(module, yaml);
+        return Map.of("ok", errors.isEmpty(), "errors", errors);
+    }
+
     @GetMapping("/models")
     public List<Map<String, Object>> models() {
         List<Map<String, Object>> out = new ArrayList<>();

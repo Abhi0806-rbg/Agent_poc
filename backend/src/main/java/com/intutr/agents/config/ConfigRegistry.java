@@ -1,6 +1,7 @@
 package com.intutr.agents.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import com.intutr.agents.config.Cfg.*;
@@ -194,5 +195,78 @@ public class ConfigRegistry {
             reload();
         }
         return errs;
+    }
+
+    /** Saves a file-backed module YAML, reloads and validates the full snapshot, and rolls back on error. */
+    public synchronized List<String> saveModuleYaml(String module, String fileName, String text) {
+        Map<String, String> dirs = Map.of("prompts", "prompts", "tools", "tools", "skills", "skills", "evals", "evals");
+        String sub = dirs.get(module);
+        if (sub == null) return List.of("module is not editable through YAML");
+        if (fileName == null || !fileName.matches("[A-Za-z0-9][A-Za-z0-9._-]*") || fileName.contains("..")) return List.of("invalid configuration filename");
+        if (!fileName.endsWith(".yaml")) fileName += ".yaml";
+        Path base = dir.resolve(sub).normalize();
+        Path p = base.resolve(fileName).normalize();
+        if (!p.startsWith(base)) return List.of("invalid configuration filename");
+        String old = null;
+        try {
+            JsonNode parsed = yaml.readTree(subst(text));
+            String expected = switch (module) { case "prompts" -> "name"; case "tools" -> "name"; case "skills" -> "name"; case "evals" -> "agent"; default -> ""; };
+            String actual = parsed == null || parsed.get(expected) == null ? null : parsed.get(expected).asText();
+            String expectedFile = "evals".equals(module) ? actual + ".yaml" : actual + ".yaml";
+            if (actual == null || !expectedFile.equals(fileName)) return List.of("configuration identity in YAML must match filename '" + fileName + "'");
+            if (Files.exists(p)) old = Files.readString(p);
+            Files.createDirectories(p.getParent());
+            Files.writeString(p, text);
+        } catch (Exception e) { return List.of(String.valueOf(e.getMessage()).split("\\n")[0]); }
+        List<String> errs = reload();
+        if (!errs.isEmpty()) {
+            try { if (old == null) Files.deleteIfExists(p); else Files.writeString(p, old); } catch (IOException ignored) { }
+            reload();
+        }
+        return errs;
+    }
+
+    /** Saves singleton configuration files supported by this registry and rolls back invalid changes. */
+    public synchronized List<String> saveSingletonYaml(String module, String text) {
+        String relative = switch (module) {
+            case "models" -> "models.yaml";
+            case "guardrails" -> "guardrails.yaml";
+            case "platform" -> "platform.yaml";
+            case "retrieval_eval" -> "knowledge/retrieval_eval.yaml";
+            default -> null;
+        };
+        if (relative == null) return List.of("unsupported configuration module");
+        Path p = dir.resolve(relative).normalize();
+        String old;
+        try { yaml.readTree(subst(text)); old = Files.readString(p); Files.writeString(p, text); }
+        catch (Exception e) { return List.of(String.valueOf(e.getMessage()).split("\\n")[0]); }
+        List<String> errs = reload();
+        if (!errs.isEmpty()) { try { Files.writeString(p, old); } catch (IOException ignored) { } reload(); }
+        return errs;
+    }
+
+    public String singletonYaml(String module) {
+        String relative = switch (module) { case "models" -> "models.yaml"; case "guardrails" -> "guardrails.yaml"; case "platform" -> "platform.yaml"; case "retrieval_eval" -> "knowledge/retrieval_eval.yaml"; default -> null; };
+        if (relative == null) throw new IllegalArgumentException("unsupported configuration module");
+        try { return Files.readString(dir.resolve(relative)); } catch (IOException e) { throw new IllegalArgumentException("configuration file not found"); }
+    }
+
+    public String moduleYaml(String module, String fileName) {
+        String sub = switch (module) { case "prompts" -> "prompts"; case "tools" -> "tools"; case "skills" -> "skills"; case "evals" -> "evals"; default -> null; };
+        if (sub == null || fileName == null || !fileName.matches("[A-Za-z0-9][A-Za-z0-9._-]*") || fileName.contains("..")) throw new IllegalArgumentException("invalid configuration file");
+        if (!fileName.endsWith(".yaml")) fileName += ".yaml";
+        try { return Files.readString(dir.resolve(sub).resolve(fileName)); } catch (IOException e) { throw new IllegalArgumentException("configuration file not found"); }
+    }
+
+    public List<Map<String, Object>> evalConfigs() {
+        List<Map<String, Object>> out = new ArrayList<>();
+        Path d = dir.resolve("evals");
+        try (Stream<Path> st = Files.list(d)) {
+            for (Path p : st.filter(x -> x.toString().endsWith(".yaml")).sorted().toList()) {
+                Map<String, Object> row = new LinkedHashMap<>(); row.put("file", p.getFileName().toString()); row.put("yaml", Files.readString(p));
+                EvalSet set = yaml.readValue(subst((String) row.get("yaml")), EvalSet.class); row.put("agent", set.agent()); row.put("cases", set.cases()); out.add(row);
+            }
+        } catch (Exception e) { throw new IllegalStateException("could not read evaluation config", e); }
+        return out;
     }
 }
