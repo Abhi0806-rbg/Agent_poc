@@ -1,0 +1,51 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# Model configuration.
+#
+# Model names are read from environment variables — set them in .env.
+# If an env var is missing, the name falls back to the sentinel "mock" which
+# the LlmGateway treats as an explicit request for MockClient (see clientFor()).
+# A sentinel of "set-MODEL_X-in-env" or "mock" routes to MockClient so mock mode
+# is intentional and visible in logs, not a silent accident.
+#
+# Pricing source (as of Nov 2024 — verify at provider pricing pages before go-live):
+#   OpenAI:    https://openai.com/api/pricing/
+#   Anthropic: https://www.anthropic.com/pricing#anthropic-api
+#
+# All costs are USD per 1,000,000 tokens (input or output).
+# ─────────────────────────────────────────────────────────────────────────────
+models:
+  fast:
+    provider: openai
+    # Recommended: gpt-4o-mini  (fast, cheap, function-calling capable)
+    # Set MODEL_FAST=gpt-4o-mini in .env to activate real calls.
+    # Leave MODEL_FAST unset or empty → falls back to MockClient automatically.
+    name: "${MODEL_FAST:mock}"
+    max_output_tokens: 800
+    fallback: smart
+    # gpt-4o-mini pricing (Nov 2024): $0.150 / 1M input, $0.600 / 1M output
+    input_cost_per_million: 0.15
+    output_cost_per_million: 0.60
+
+  smart:
+    provider: anthropic
+    # Recommended: claude-3-5-haiku-20241022  (best Anthropic price/perf ratio)
+    # Set MODEL_SMART=claude-3-5-haiku-20241022 in .env to activate real calls.
+    # Leave MODEL_SMART unset or empty → falls back to MockClient automatically.
+    name: "${MODEL_SMART:mock}"
+    max_output_tokens: 1500
+    fallback: fast
+    # claude-3-5-haiku pricing (Nov 2024): $0.800 / 1M input, $4.000 / 1M output
+    input_cost_per_million: 0.80
+    output_cost_per_million: 4.00
+
+  embed:
+    provider: openai
+    # Recommended: text-embedding-3-small  (384-dim compatible, low cost)
+    # Set MODEL_EMBED=text-embedding-3-small in .env to activate real embeddings.
+    # Leave MODEL_EMBED unset or empty → falls back to HashEmbedder (mock).
+    name: "${MODEL_EMBED:mock}"
+    kind: embedding
+    dimensions: 384
+    # text-embedding-3-small pricing (Nov 2024): $0.020 / 1M tokens, no output cost
+    input_cost_per_million: 0.02
+    output_cost_per_million: 0.0

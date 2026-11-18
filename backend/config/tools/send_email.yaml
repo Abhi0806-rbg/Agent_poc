@@ -1,0 +1,11 @@
+name: send_email
+type: http
+description: Send an email (mock endpoint in the POC)
+method: POST
+url: "mock://email"
+# requires_approval is intentionally NOT set here.
+# Approval is enforced centrally via guardrails.yaml → approvals_required_for: [send_email]
+params:
+  to:      { type: string, required: true }
+  subject: { type: string, required: true }
+  body:    { type: string, required: true }

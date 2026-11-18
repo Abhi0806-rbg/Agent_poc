@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <!-- Phase 1 baseline: tables, views, indexes, seed schema -->
+    <include file="db/changelog/001-init.sql" relativeToChangelogFile="false"/>
+
+    <!-- Phase 2: adds at_risk column to v_user_progress view -->
+    <include file="db/changelog/002-v-user-progress-at-risk.sql" relativeToChangelogFile="false"/>
+
+</databaseChangeLog>

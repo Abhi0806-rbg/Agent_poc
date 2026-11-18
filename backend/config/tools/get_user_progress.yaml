@@ -1,0 +1,10 @@
+name: get_user_progress
+type: sql
+description: Course progress for the current learner, including at-risk status
+params:
+  tenant:  { type: string, source: context.tenant }
+  user_id: { type: string, source: context.user_id }
+  limit:   { type: integer, default: 10, max: 20 }
+query: |
+  SELECT course_name, percent, deadline, at_risk FROM v_user_progress
+  WHERE tenant_id = :tenant AND user_id = :user_id ORDER BY deadline LIMIT :limit

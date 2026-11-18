@@ -1,0 +1,287 @@
+[INFO] Error stacktraces are turned on.
+[INFO] Scanning for projects...
+[INFO] Loaded 24504 auto-discovered prefixes for remote repository central (prefixes-central.txt)
+[INFO] 
+[INFO] ------------------------< com.intutr:agent-poc >------------------------
+[INFO] Building agent-poc 0.1.0
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] Loaded 64 auto-discovered prefixes for remote repository apache.snapshots (prefixes-apache.snapshots.txt)
+[INFO] 
+[INFO] >>> spring-boot:3.4.1:run (default-cli) > test-compile @ agent-poc >>>
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ agent-poc ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.13.0:compile (default-compile) @ agent-poc ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ agent-poc ---
+[INFO] skip non existing resourceDirectory /Users/abhi/Downloads/intutr-agent-poc/backend/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.13.0:testCompile (default-testCompile) @ agent-poc ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] <<< spring-boot:3.4.1:run (default-cli) < test-compile @ agent-poc <<<
+[INFO] 
+[INFO] 
+[INFO] --- spring-boot:3.4.1:run (default-cli) @ agent-poc ---
+[INFO] Loaded 50 auto-discovered prefixes for remote repository ow2-snapshot (prefixes-ow2-snapshot.txt)
+[INFO] Attaching agents: []
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.4.1)
+
+2026-11-16T10:38:40.754+05:30  INFO [run=] 96757 --- [           main] com.intutr.agents.AgentApp               : Starting AgentApp using Java 21.0.13 with PID 96757 (/Users/abhi/Downloads/intutr-agent-poc/backend/target/classes started by abhi in /Users/abhi/Downloads/intutr-agent-poc/backend)
+2026-11-16T10:38:40.755+05:30  INFO [run=] 96757 --- [           main] com.intutr.agents.AgentApp               : No active profile set, falling back to 1 default profile: "default"
+2026-11-16T10:38:41.235+05:30  INFO [run=] 96757 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-11-16T10:38:41.242+05:30  INFO [run=] 96757 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-11-16T10:38:41.243+05:30  INFO [run=] 96757 --- [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.34]
+2026-11-16T10:38:41.273+05:30  INFO [run=] 96757 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-11-16T10:38:41.273+05:30  INFO [run=] 96757 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 498 ms
+2026-11-16T10:38:41.414+05:30  INFO [run=] 96757 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-11-16T10:38:41.485+05:30  INFO [run=] 96757 --- [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@781711b7
+2026-11-16T10:38:41.486+05:30  INFO [run=] 96757 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-11-16T10:38:41.612+05:30  INFO [run=] 96757 --- [           main] liquibase.database                       : Set default schema name to public
+2026-11-16T10:38:41.787+05:30  INFO [run=] 96757 --- [           main] liquibase.changelog                      : Reading from public.databasechangelog
+2026-11-16T10:38:41.807+05:30  INFO [run=] 96757 --- [           main] liquibase.lockservice                    : Waiting for changelog lock....
+2026-11-16T10:38:51.849+05:30  INFO [run=] 96757 --- [           main] liquibase.lockservice                    : Waiting for changelog lock....
+2026-11-16T10:39:01.883+05:30  INFO [run=] 96757 --- [           main] liquibase.lockservice                    : Waiting for changelog lock....
+2026-11-16T10:39:11.918+05:30  INFO [run=] 96757 --- [           main] liquibase.lockservice                    : Waiting for changelog lock....
+2026-11-16T10:39:21.995+05:30  INFO [run=] 96757 --- [           main] liquibase.lockservice                    : Waiting for changelog lock....
+2026-11-16T10:39:32.107+05:30  INFO [run=] 96757 --- [           main] liquibase.lockservice                    : Waiting for changelog lock....
+2026-11-16T10:39:42.129+05:30  INFO [run=] 96757 --- [           main] liquibase.lockservice                    : Waiting for changelog lock....
+2026-11-16T10:39:52.153+05:30  INFO [run=] 96757 --- [           main] liquibase.lockservice                    : Waiting for changelog lock....
+2026-11-16T10:40:02.179+05:30  INFO [run=] 96757 --- [           main] liquibase.lockservice                    : Waiting for changelog lock....
+2026-11-16T10:40:12.204+05:30  INFO [run=] 96757 --- [           main] liquibase.lockservice                    : Waiting for changelog lock....
+2026-11-16T10:40:22.219+05:30  INFO [run=] 96757 --- [           main] liquibase.lockservice                    : Waiting for changelog lock....
+2026-11-16T10:40:32.245+05:30  INFO [run=] 96757 --- [           main] liquibase.lockservice                    : Waiting for changelog lock....
+2026-11-16T10:40:42.267+05:30  INFO [run=] 96757 --- [           main] liquibase.lockservice                    : Waiting for changelog lock....
+2026-11-16T10:40:52.321+05:30  INFO [run=] 96757 --- [           main] liquibase.lockservice                    : Waiting for changelog lock....
+2026-11-16T10:41:02.366+05:30  INFO [run=] 96757 --- [           main] liquibase.lockservice                    : Waiting for changelog lock....
+2026-11-16T10:41:12.392+05:30  INFO [run=] 96757 --- [           main] liquibase.lockservice                    : Waiting for changelog lock....
+2026-11-16T10:41:22.510+05:30  INFO [run=] 96757 --- [           main] liquibase.lockservice                    : Waiting for changelog lock....
+2026-11-16T10:41:32.533+05:30  INFO [run=] 96757 --- [           main] liquibase.lockservice                    : Waiting for changelog lock....
+2026-11-16T10:41:42.553+05:30  INFO [run=] 96757 --- [           main] liquibase.lockservice                    : Waiting for changelog lock....
+2026-11-16T10:41:52.568+05:30  INFO [run=] 96757 --- [           main] liquibase.lockservice                    : Waiting for changelog lock....
+2026-11-16T10:42:02.590+05:30  INFO [run=] 96757 --- [           main] liquibase.lockservice                    : Waiting for changelog lock....
+2026-11-16T10:42:12.608+05:30  INFO [run=] 96757 --- [           main] liquibase.lockservice                    : Waiting for changelog lock....
+2026-11-16T10:42:22.624+05:30  INFO [run=] 96757 --- [           main] liquibase.lockservice                    : Waiting for changelog lock....
+2026-11-16T10:42:32.644+05:30  INFO [run=] 96757 --- [           main] liquibase.lockservice                    : Waiting for changelog lock....
+2026-11-16T10:42:42.671+05:30  INFO [run=] 96757 --- [           main] liquibase.lockservice                    : Waiting for changelog lock....
+2026-11-16T10:42:52.712+05:30  INFO [run=] 96757 --- [           main] liquibase.lockservice                    : Waiting for changelog lock....
+2026-11-16T10:43:02.754+05:30  INFO [run=] 96757 --- [           main] liquibase.lockservice                    : Waiting for changelog lock....
+2026-11-16T10:43:12.768+05:30  INFO [run=] 96757 --- [           main] liquibase.lockservice                    : Waiting for changelog lock....
+2026-11-16T10:43:22.785+05:30  INFO [run=] 96757 --- [           main] liquibase.lockservice                    : Waiting for changelog lock....
+2026-11-16T10:43:32.801+05:30  INFO [run=] 96757 --- [           main] liquibase.lockservice                    : Waiting for changelog lock....
+2026-11-16T10:43:42.836+05:30  INFO [run=] 96757 --- [           main] liquibase.command                        : Update command encountered an exception.
+2026-11-16T10:43:42.843+05:30  INFO [run=] 96757 --- [           main] liquibase.command                        : Logging exception.
+2026-11-16T10:43:42.843+05:30  INFO [run=] 96757 --- [           main] liquibase.ui                             : ERROR: Exception Details
+2026-11-16T10:43:42.843+05:30  INFO [run=] 96757 --- [           main] liquibase.ui                             : ERROR: Exception Primary Class:  LockException
+2026-11-16T10:43:42.843+05:30  INFO [run=] 96757 --- [           main] liquibase.ui                             : ERROR: Exception Primary Reason:  Could not acquire change log lock.  Currently locked by NewHostName.local (192.168.0.113) since 16/11/26, 10:35 am
+2026-11-16T10:43:42.843+05:30  INFO [run=] 96757 --- [           main] liquibase.ui                             : ERROR: Exception Primary Source:  4.29.2
+2026-11-16T10:43:42.843+05:30  INFO [run=] 96757 --- [           main] liquibase.command                        : Command execution complete
+2026-11-16T10:43:42.853+05:30  WARN [run=] 96757 --- [           main] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'apiController' defined in file [/Users/abhi/Downloads/intutr-agent-poc/backend/target/classes/com/intutr/agents/api/ApiController.class]: Unsatisfied dependency expressed through constructor parameter 1: Error creating bean with name 'agentEngine' defined in file [/Users/abhi/Downloads/intutr-agent-poc/backend/target/classes/com/intutr/agents/engine/AgentEngine.class]: Unsatisfied dependency expressed through constructor parameter 1: Error creating bean with name 'llmGateway' defined in file [/Users/abhi/Downloads/intutr-agent-poc/backend/target/classes/com/intutr/agents/llm/LlmGateway.class]: Unsatisfied dependency expressed through constructor parameter 4: Error creating bean with name 'traceRepo' defined in file [/Users/abhi/Downloads/intutr-agent-poc/backend/target/classes/com/intutr/agents/trace/TraceRepo.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'liquibase' defined in class path resource [org/springframework/boot/autoconfigure/liquibase/LiquibaseAutoConfiguration$LiquibaseConfiguration.class]: liquibase.exception.CommandExecutionException: liquibase.exception.LockException: Could not acquire change log lock.  Currently locked by NewHostName.local (192.168.0.113) since 16/11/26, 10:35 am
+2026-11-16T10:43:42.853+05:30  INFO [run=] 96757 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-11-16T10:43:42.858+05:30  INFO [run=] 96757 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-11-16T10:43:42.863+05:30  INFO [run=] 96757 --- [           main] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2026-11-16T10:43:42.875+05:30  INFO [run=] 96757 --- [           main] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-11-16T10:43:42.889+05:30 ERROR [run=] 96757 --- [           main] o.s.boot.SpringApplication               : Application run failed
+
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'apiController' defined in file [/Users/abhi/Downloads/intutr-agent-poc/backend/target/classes/com/intutr/agents/api/ApiController.class]: Unsatisfied dependency expressed through constructor parameter 1: Error creating bean with name 'agentEngine' defined in file [/Users/abhi/Downloads/intutr-agent-poc/backend/target/classes/com/intutr/agents/engine/AgentEngine.class]: Unsatisfied dependency expressed through constructor parameter 1: Error creating bean with name 'llmGateway' defined in file [/Users/abhi/Downloads/intutr-agent-poc/backend/target/classes/com/intutr/agents/llm/LlmGateway.class]: Unsatisfied dependency expressed through constructor parameter 4: Error creating bean with name 'traceRepo' defined in file [/Users/abhi/Downloads/intutr-agent-poc/backend/target/classes/com/intutr/agents/trace/TraceRepo.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'liquibase' defined in class path resource [org/springframework/boot/autoconfigure/liquibase/LiquibaseAutoConfiguration$LiquibaseConfiguration.class]: liquibase.exception.CommandExecutionException: liquibase.exception.LockException: Could not acquire change log lock.  Currently locked by NewHostName.local (192.168.0.113) since 16/11/26, 10:35 am
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:804) ~[spring-beans-6.2.1.jar:6.2.1]
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:240) ~[spring-beans-6.2.1.jar:6.2.1]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1377) ~[spring-beans-6.2.1.jar:6.2.1]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1214) ~[spring-beans-6.2.1.jar:6.2.1]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:563) ~[spring-beans-6.2.1.jar:6.2.1]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:523) ~[spring-beans-6.2.1.jar:6.2.1]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:336) ~[spring-beans-6.2.1.jar:6.2.1]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:289) ~[spring-beans-6.2.1.jar:6.2.1]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:334) ~[spring-beans-6.2.1.jar:6.2.1]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199) ~[spring-beans-6.2.1.jar:6.2.1]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.instantiateSingleton(DefaultListableBeanFactory.java:1122) ~[spring-beans-6.2.1.jar:6.2.1]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingleton(DefaultListableBeanFactory.java:1093) ~[spring-beans-6.2.1.jar:6.2.1]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:1030) ~[spring-beans-6.2.1.jar:6.2.1]
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:987) ~[spring-context-6.2.1.jar:6.2.1]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:627) ~[spring-context-6.2.1.jar:6.2.1]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146) ~[spring-boot-3.4.1.jar:3.4.1]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:752) ~[spring-boot-3.4.1.jar:3.4.1]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:439) ~[spring-boot-3.4.1.jar:3.4.1]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:318) ~[spring-boot-3.4.1.jar:3.4.1]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1361) ~[spring-boot-3.4.1.jar:3.4.1]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1350) ~[spring-boot-3.4.1.jar:3.4.1]
+	at com.intutr.agents.AgentApp.main(AgentApp.java:8) ~[classes/:na]
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'agentEngine' defined in file [/Users/abhi/Downloads/intutr-agent-poc/backend/target/classes/com/intutr/agents/engine/AgentEngine.class]: Unsatisfied dependency expressed through constructor parameter 1: Error creating bean with name 'llmGateway' defined in file [/Users/abhi/Downloads/intutr-agent-poc/backend/target/classes/com/intutr/agents/llm/LlmGateway.class]: Unsatisfied dependency expressed through constructor parameter 4: Error creating bean with name 'traceRepo' defined in file [/Users/abhi/Downloads/intutr-agent-poc/backend/target/classes/com/intutr/agents/trace/TraceRepo.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'liquibase' defined in class path resource [org/springframework/boot/autoconfigure/liquibase/LiquibaseAutoConfiguration$LiquibaseConfiguration.class]: liquibase.exception.CommandExecutionException: liquibase.exception.LockException: Could not acquire change log lock.  Currently locked by NewHostName.local (192.168.0.113) since 16/11/26, 10:35 am
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:804) ~[spring-beans-6.2.1.jar:6.2.1]
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:240) ~[spring-beans-6.2.1.jar:6.2.1]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1377) ~[spring-beans-6.2.1.jar:6.2.1]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1214) ~[spring-beans-6.2.1.jar:6.2.1]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:563) ~[spring-beans-6.2.1.jar:6.2.1]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:523) ~[spring-beans-6.2.1.jar:6.2.1]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:336) ~[spring-beans-6.2.1.jar:6.2.1]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:289) ~[spring-beans-6.2.1.jar:6.2.1]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:334) ~[spring-beans-6.2.1.jar:6.2.1]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199) ~[spring-beans-6.2.1.jar:6.2.1]
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254) ~[spring-beans-6.2.1.jar:6.2.1]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1631) ~[spring-beans-6.2.1.jar:6.2.1]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1519) ~[spring-beans-6.2.1.jar:6.2.1]
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:913) ~[spring-beans-6.2.1.jar:6.2.1]
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:791) ~[spring-beans-6.2.1.jar:6.2.1]
+	... 21 common frames omitted
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'llmGateway' defined in file [/Users/abhi/Downloads/intutr-agent-poc/backend/target/classes/com/intutr/agents/llm/LlmGateway.class]: Unsatisfied dependency expressed through constructor parameter 4: Error creating bean with name 'traceRepo' defined in file [/Users/abhi/Downloads/intutr-agent-poc/backend/target/classes/com/intutr/agents/trace/TraceRepo.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'liquibase' defined in class path resource [org/springframework/boot/autoconfigure/liquibase/LiquibaseAutoConfiguration$LiquibaseConfiguration.class]: liquibase.exception.CommandExecutionException: liquibase.exception.LockException: Could not acquire change log lock.  Currently locked by NewHostName.local (192.168.0.113) since 16/11/26, 10:35 am
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:804) ~[spring-beans-6.2.1.jar:6.2.1]
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:240) ~[spring-beans-6.2.1.jar:6.2.1]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1377) ~[spring-beans-6.2.1.jar:6.2.1]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1214) ~[spring-beans-6.2.1.jar:6.2.1]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:563) ~[spring-beans-6.2.1.jar:6.2.1]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:523) ~[spring-beans-6.2.1.jar:6.2.1]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:336) ~[spring-beans-6.2.1.jar:6.2.1]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:289) ~[spring-beans-6.2.1.jar:6.2.1]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:334) ~[spring-beans-6.2.1.jar:6.2.1]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199) ~[spring-beans-6.2.1.jar:6.2.1]
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254) ~[spring-beans-6.2.1.jar:6.2.1]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1631) ~[spring-beans-6.2.1.jar:6.2.1]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1519) ~[spring-beans-6.2.1.jar:6.2.1]
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:913) ~[spring-beans-6.2.1.jar:6.2.1]
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:791) ~[spring-beans-6.2.1.jar:6.2.1]
+	... 35 common frames omitted
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'traceRepo' defined in file [/Users/abhi/Downloads/intutr-agent-poc/backend/target/classes/com/intutr/agents/trace/TraceRepo.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'liquibase' defined in class path resource [org/springframework/boot/autoconfigure/liquibase/LiquibaseAutoConfiguration$LiquibaseConfiguration.class]: liquibase.exception.CommandExecutionException: liquibase.exception.LockException: Could not acquire change log lock.  Currently locked by NewHostName.local (192.168.0.113) since 16/11/26, 10:35 am
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:804) ~[spring-beans-6.2.1.jar:6.2.1]
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:240) ~[spring-beans-6.2.1.jar:6.2.1]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1377) ~[spring-beans-6.2.1.jar:6.2.1]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1214) ~[spring-beans-6.2.1.jar:6.2.1]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:563) ~[spring-beans-6.2.1.jar:6.2.1]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:523) ~[spring-beans-6.2.1.jar:6.2.1]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:336) ~[spring-beans-6.2.1.jar:6.2.1]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:289) ~[spring-beans-6.2.1.jar:6.2.1]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:334) ~[spring-beans-6.2.1.jar:6.2.1]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199) ~[spring-beans-6.2.1.jar:6.2.1]
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254) ~[spring-beans-6.2.1.jar:6.2.1]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1631) ~[spring-beans-6.2.1.jar:6.2.1]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1519) ~[spring-beans-6.2.1.jar:6.2.1]
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:913) ~[spring-beans-6.2.1.jar:6.2.1]
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:791) ~[spring-beans-6.2.1.jar:6.2.1]
+	... 49 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'liquibase' defined in class path resource [org/springframework/boot/autoconfigure/liquibase/LiquibaseAutoConfiguration$LiquibaseConfiguration.class]: liquibase.exception.CommandExecutionException: liquibase.exception.LockException: Could not acquire change log lock.  Currently locked by NewHostName.local (192.168.0.113) since 16/11/26, 10:35 am
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1808) ~[spring-beans-6.2.1.jar:6.2.1]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:601) ~[spring-beans-6.2.1.jar:6.2.1]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:523) ~[spring-beans-6.2.1.jar:6.2.1]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:336) ~[spring-beans-6.2.1.jar:6.2.1]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:289) ~[spring-beans-6.2.1.jar:6.2.1]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:334) ~[spring-beans-6.2.1.jar:6.2.1]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199) ~[spring-beans-6.2.1.jar:6.2.1]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:312) ~[spring-beans-6.2.1.jar:6.2.1]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199) ~[spring-beans-6.2.1.jar:6.2.1]
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254) ~[spring-beans-6.2.1.jar:6.2.1]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1631) ~[spring-beans-6.2.1.jar:6.2.1]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1519) ~[spring-beans-6.2.1.jar:6.2.1]
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:913) ~[spring-beans-6.2.1.jar:6.2.1]
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:791) ~[spring-beans-6.2.1.jar:6.2.1]
+	... 63 common frames omitted
+Caused by: liquibase.exception.UnexpectedLiquibaseException: liquibase.exception.CommandExecutionException: liquibase.exception.LockException: Could not acquire change log lock.  Currently locked by NewHostName.local (192.168.0.113) since 16/11/26, 10:35 am
+	at liquibase.integration.spring.SpringLiquibase.afterPropertiesSet(SpringLiquibase.java:267) ~[liquibase-core-4.29.2.jar:na]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1855) ~[spring-beans-6.2.1.jar:6.2.1]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1804) ~[spring-beans-6.2.1.jar:6.2.1]
+	... 76 common frames omitted
+Caused by: liquibase.exception.CommandExecutionException: liquibase.exception.LockException: Could not acquire change log lock.  Currently locked by NewHostName.local (192.168.0.113) since 16/11/26, 10:35 am
+	at liquibase.command.CommandScope.execute(CommandScope.java:258) ~[liquibase-core-4.29.2.jar:na]
+	at liquibase.Liquibase.lambda$update$0(Liquibase.java:216) ~[liquibase-core-4.29.2.jar:na]
+	at liquibase.Scope.lambda$child$0(Scope.java:191) ~[liquibase-core-4.29.2.jar:na]
+	at liquibase.Scope.child(Scope.java:200) ~[liquibase-core-4.29.2.jar:na]
+	at liquibase.Scope.child(Scope.java:190) ~[liquibase-core-4.29.2.jar:na]
+	at liquibase.Scope.child(Scope.java:169) ~[liquibase-core-4.29.2.jar:na]
+	at liquibase.Liquibase.runInScope(Liquibase.java:1329) ~[liquibase-core-4.29.2.jar:na]
+	at liquibase.Liquibase.update(Liquibase.java:205) ~[liquibase-core-4.29.2.jar:na]
+	at liquibase.Liquibase.update(Liquibase.java:188) ~[liquibase-core-4.29.2.jar:na]
+	at liquibase.integration.spring.SpringLiquibase.performUpdate(SpringLiquibase.java:305) ~[liquibase-core-4.29.2.jar:na]
+	at liquibase.integration.spring.SpringLiquibase.lambda$afterPropertiesSet$0(SpringLiquibase.java:257) ~[liquibase-core-4.29.2.jar:na]
+	at liquibase.Scope.lambda$child$0(Scope.java:191) ~[liquibase-core-4.29.2.jar:na]
+	at liquibase.Scope.child(Scope.java:200) ~[liquibase-core-4.29.2.jar:na]
+	at liquibase.Scope.child(Scope.java:190) ~[liquibase-core-4.29.2.jar:na]
+	at liquibase.Scope.child(Scope.java:169) ~[liquibase-core-4.29.2.jar:na]
+	at liquibase.Scope.child(Scope.java:257) ~[liquibase-core-4.29.2.jar:na]
+	at liquibase.integration.spring.SpringLiquibase.afterPropertiesSet(SpringLiquibase.java:250) ~[liquibase-core-4.29.2.jar:na]
+	... 78 common frames omitted
+Caused by: liquibase.exception.LockException: Could not acquire change log lock.  Currently locked by NewHostName.local (192.168.0.113) since 16/11/26, 10:35 am
+	at liquibase.lockservice.StandardLockService.waitForLock(StandardLockService.java:287) ~[liquibase-core-4.29.2.jar:na]
+	at liquibase.command.core.AbstractUpdateCommandStep.run(AbstractUpdateCommandStep.java:96) ~[liquibase-core-4.29.2.jar:na]
+	at liquibase.command.core.UpdateCommandStep.run(UpdateCommandStep.java:105) ~[liquibase-core-4.29.2.jar:na]
+	at liquibase.command.CommandScope.execute(CommandScope.java:220) ~[liquibase-core-4.29.2.jar:na]
+	... 94 common frames omitted
+
+[INFO] ------------------------------------------------------------------------
+[ERROR] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  05:04 min
+[INFO] Finished at: 2026-11-16T10:43:42+05:30
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.springframework.boot:spring-boot-maven-plugin:3.4.1:run (default-cli) on project agent-poc: Process terminated with exit code: 1 -> [Help 1]
+org.apache.maven.lifecycle.LifecycleExecutionException: Failed to execute goal org.springframework.boot:spring-boot-maven-plugin:3.4.1:run (default-cli) on project agent-poc: Process terminated with exit code: 1
+    at org.apache.maven.lifecycle.internal.MojoExecutor.doExecute2 (MojoExecutor.java:342)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.doExecute (MojoExecutor.java:324)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:220)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:181)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.access$000 (MojoExecutor.java:79)
+    at org.apache.maven.lifecycle.internal.MojoExecutor$1.run (MojoExecutor.java:169)
+    at org.apache.maven.plugin.DefaultMojosExecutionStrategy.execute (DefaultMojosExecutionStrategy.java:39)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:166)
+    at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject (LifecycleModuleBuilder.java:106)
+    at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject (LifecycleModuleBuilder.java:74)
+    at org.apache.maven.lifecycle.internal.builder.singlethreaded.SingleThreadedBuilder.build (SingleThreadedBuilder.java:56)
+    at org.apache.maven.lifecycle.internal.LifecycleStarter.execute (LifecycleStarter.java:121)
+    at org.apache.maven.DefaultMaven.doExecute (DefaultMaven.java:267)
+    at org.apache.maven.DefaultMaven.doExecute (DefaultMaven.java:179)
+    at org.apache.maven.DefaultMaven.execute (DefaultMaven.java:105)
+    at org.apache.maven.cli.MavenCli.execute (MavenCli.java:1017)
+    at org.apache.maven.cli.MavenCli.doMain (MavenCli.java:299)
+    at org.apache.maven.cli.MavenCli.main (MavenCli.java:219)
+    at jdk.internal.reflect.DirectMethodHandleAccessor.invoke (DirectMethodHandleAccessor.java:103)
+    at java.lang.reflect.Method.invoke (Method.java:580)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.launchEnhanced (Launcher.java:255)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.launch (Launcher.java:201)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.mainWithExitCode (Launcher.java:362)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.main (Launcher.java:314)
+Caused by: org.apache.maven.plugin.MojoExecutionException: Process terminated with exit code: 1
+    at org.springframework.boot.maven.JavaProcessExecutor.run (JavaProcessExecutor.java:74)
+    at org.springframework.boot.maven.RunMojo.run (RunMojo.java:76)
+    at org.springframework.boot.maven.AbstractRunMojo.run (AbstractRunMojo.java:240)
+    at org.springframework.boot.maven.AbstractRunMojo.execute (AbstractRunMojo.java:203)
+    at org.apache.maven.plugin.DefaultBuildPluginManager.executeMojo (DefaultBuildPluginManager.java:127)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.doExecute2 (MojoExecutor.java:336)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.doExecute (MojoExecutor.java:324)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:220)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:181)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.access$000 (MojoExecutor.java:79)
+    at org.apache.maven.lifecycle.internal.MojoExecutor$1.run (MojoExecutor.java:169)
+    at org.apache.maven.plugin.DefaultMojosExecutionStrategy.execute (DefaultMojosExecutionStrategy.java:39)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:166)
+    at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject (LifecycleModuleBuilder.java:106)
+    at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject (LifecycleModuleBuilder.java:74)
+    at org.apache.maven.lifecycle.internal.builder.singlethreaded.SingleThreadedBuilder.build (SingleThreadedBuilder.java:56)
+    at org.apache.maven.lifecycle.internal.LifecycleStarter.execute (LifecycleStarter.java:121)
+    at org.apache.maven.DefaultMaven.doExecute (DefaultMaven.java:267)
+    at org.apache.maven.DefaultMaven.doExecute (DefaultMaven.java:179)
+    at org.apache.maven.DefaultMaven.execute (DefaultMaven.java:105)
+    at org.apache.maven.cli.MavenCli.execute (MavenCli.java:1017)
+    at org.apache.maven.cli.MavenCli.doMain (MavenCli.java:299)
+    at org.apache.maven.cli.MavenCli.main (MavenCli.java:219)
+    at jdk.internal.reflect.DirectMethodHandleAccessor.invoke (DirectMethodHandleAccessor.java:103)
+    at java.lang.reflect.Method.invoke (Method.java:580)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.launchEnhanced (Launcher.java:255)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.launch (Launcher.java:201)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.mainWithExitCode (Launcher.java:362)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.main (Launcher.java:314)
+[ERROR] 
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException

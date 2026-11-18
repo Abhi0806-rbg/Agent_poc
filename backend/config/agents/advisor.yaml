@@ -1,0 +1,9 @@
+name: advisor
+enabled: true
+description: Learner advisor - progress and content questions
+model: fast
+prompt: advisor@1
+skills: [learner-analytics]
+tools: [search_content, get_user_progress]
+limits: { max_steps: 4 }
+suggestions: ["Am I on track for my courses?", "Recommend my next lesson", "Explain fundamental rights"]

@@ -1,0 +1,6 @@
+name: ask_advisor
+type: agent
+description: Ask the learner advisor agent about a learner's progress or study content
+agent: advisor
+params:
+  task: { type: string, required: true }

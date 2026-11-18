@@ -1,0 +1,7 @@
+name: report-agent
+enabled: true
+description: Manager reports on batches and learner progress
+model: smart
+prompt: report@1
+tools: [get_group_summary, send_email]
+suggestions: ["Weekly summary for my batches", "Email me the weekly batch summary"]

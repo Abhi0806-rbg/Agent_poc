@@ -1,0 +1,8 @@
+name: search_content
+type: vector_search
+description: Find learning content related to a question
+collection: lob_content
+top_k: 4
+min_score: 0.05
+params:
+  query: { type: string, required: true }

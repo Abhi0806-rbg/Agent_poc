@@ -1,0 +1,5 @@
+sql_allowed_relations: [v_user_progress, v_group_summary]
+sql_max_rows: 50
+sql_timeout_ms: 5000
+http_allowed_hosts: []
+approvals_required_for: [send_email]

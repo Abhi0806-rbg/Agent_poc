@@ -1,0 +1,10 @@
+# SMOKE TEST ONLY: written by the same author as the chunks, so many words overlap and a keyword embedder scores 8/8. Replace with real learner questions before trusting recall numbers.
+pairs:
+  - { query: "Which part of the Constitution protects freedom of speech and equality?", expected_title: "Fundamental Rights" }
+  - { query: "Welfare goals the state should follow but courts cannot enforce", expected_title: "Directive Principles of State Policy" }
+  - { query: "How is power split between the Centre and the states?", expected_title: "Federalism in India" }
+  - { query: "Why does the rainy season matter for Indian farming?", expected_title: "Indian Monsoon" }
+  - { query: "Early urban civilization with planned cities like Harappa", expected_title: "Indus Valley Civilization" }
+  - { query: "Which emperor spread Buddhism after the Kalinga war?", expected_title: "Mauryan Empire" }
+  - { query: "Why do prices rise across the economy over time?", expected_title: "Inflation" }
+  - { query: "International pact to limit global temperature rise", expected_title: "Climate Change and the Paris Agreement" }

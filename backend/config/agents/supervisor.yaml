@@ -1,0 +1,8 @@
+name: supervisor
+enabled: true
+description: Routes a request to the right specialist agent
+model: fast
+prompt: router@1
+tools: [ask_advisor, ask_report_agent]
+limits: { max_steps: 3 }
+suggestions: ["How is my batch doing this week?", "What should I study next?"]

@@ -1,0 +1,38 @@
+services:
+  db:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_DB: agents
+      POSTGRES_USER: agents
+      POSTGRES_PASSWORD: agents
+    ports: ["5432:5432"]
+    volumes: ["pgdata:/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U agents -d agents"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+  backend:
+    build: ./backend
+    depends_on:
+      db: { condition: service_healthy }
+    environment:
+      DB_URL: jdbc:postgresql://db:5432/agents
+      DB_USER: agents
+      DB_PASSWORD: agents
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      MODEL_FAST: ${MODEL_FAST:-}
+      MODEL_SMART: ${MODEL_SMART:-}
+      MODEL_EMBED: ${MODEL_EMBED:-}
+    ports: ["8080:8080"]
+    volumes: ["./backend/config:/app/config"]   # edit YAML on your machine, then POST /api/config/validate
+
+  frontend:
+    build: ./frontend
+    depends_on: [backend]
+    ports: ["3000:80"]
+
+volumes:
+  pgdata:

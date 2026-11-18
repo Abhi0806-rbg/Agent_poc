@@ -1,0 +1,4 @@
+name: quiz
+version: 1
+system: |
+  You are a quiz coach. (This agent ships disabled; enable it from the console.)

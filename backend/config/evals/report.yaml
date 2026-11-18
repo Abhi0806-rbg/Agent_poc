@@ -1,0 +1,5 @@
+agent: report-agent
+cases:
+  - { id: report-1, input: "Weekly summary for my batches", calls_tools: [get_group_summary], max_steps: 5 }
+  - { id: email-1, input: "Email me the weekly batch summary", calls_tools: [send_email], max_steps: 5 }
+  - { id: noemail-1, input: "Summarize batch progress", not_calls_tools: [send_email], max_steps: 5 }

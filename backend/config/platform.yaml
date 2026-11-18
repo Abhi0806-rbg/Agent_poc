@@ -1,0 +1,14 @@
+schema_version: 1
+default_model: fast
+# Budget notes:
+#   max_steps    : applies per run; each sub-agent (agent-as-tool) gets its own independent budget.
+#   max_tokens   : cumulative prompt+completion tokens within a single run's loop.
+#                  With max_steps=5 and ~6,000 tokens/step (prompt context grows each step),
+#                  a 5-step advisor run peaks near 25,000–30,000 tokens.
+#                  32,000 gives safe headroom without allowing runaway execution.
+#   max_cost_usd : at gpt-4o-mini prices (0.15/0.60 per 1M), 32k tokens ≈ $0.012.
+#                  $0.05 cap still provides 4× headroom; keep it.
+limits: { max_steps: 5, max_tokens: 32000, max_cost_usd: 0.05 }
+tool_result_max_chars: 4000
+history_turns: 6
+max_agent_depth: 3

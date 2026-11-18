@@ -1,0 +1,6 @@
+name: ask_report_agent
+type: agent
+description: Ask the report agent for batch or group analytics
+agent: report-agent
+params:
+  task: { type: string, required: true }

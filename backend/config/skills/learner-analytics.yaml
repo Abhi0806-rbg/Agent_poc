@@ -1,0 +1,8 @@
+name: learner-analytics
+description: How to judge whether a learner is on track
+instructions: |
+  The get_user_progress tool returns an at_risk column for each course.
+  Use at_risk=true directly — do not independently interpret percent or deadline.
+  When reporting progress, mention course names, percent complete, deadline, and at_risk status.
+  Summarise: list at-risk courses first, then courses on track.
+tools: [get_user_progress]

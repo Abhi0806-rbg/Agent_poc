@@ -1,0 +1,9 @@
+name: get_group_summary
+type: sql
+description: Learner counts, average progress and at-risk learners per batch
+params:
+  tenant: { type: string, source: context.tenant }
+  limit:  { type: integer, default: 10, max: 20 }
+query: |
+  SELECT group_name, learners, avg_percent, at_risk FROM v_group_summary
+  WHERE tenant_id = :tenant ORDER BY group_name LIMIT :limit

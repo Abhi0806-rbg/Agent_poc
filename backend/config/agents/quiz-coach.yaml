@@ -1,0 +1,7 @@
+name: quiz-coach
+enabled: false
+description: Quiz practice (disabled by default)
+model: fast
+prompt: quiz@1
+tools: [search_content]
+suggestions: []

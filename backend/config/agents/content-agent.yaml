@@ -1,0 +1,7 @@
+name: content-agent
+enabled: true
+description: Summarizes learning content from the knowledge base
+model: fast
+prompt: content@1
+tools: [search_content]
+suggestions: ["Summarize the monsoon in 5 lines"]
