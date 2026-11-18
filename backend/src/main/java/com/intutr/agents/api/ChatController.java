@@ -14,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
+import jakarta.annotation.PreDestroy;
 
 @RestController
 @RequestMapping("/api")
@@ -24,9 +25,12 @@ public class ChatController {
     private final JdbcTemplate jdbc;
     private final ExecutorService pool = Executors.newVirtualThreadPerTaskExecutor();
 
-    public ChatController(AgentEngine engine, ConfigRegistry cfg, TraceRepo trace) {
-        this.engine = engine; this.cfg = cfg; this.trace = trace; this.jdbc = trace.jdbc;
+    public ChatController(AgentEngine engine, ConfigRegistry cfg, TraceRepo trace, JdbcTemplate jdbc) {
+        this.engine = engine; this.cfg = cfg; this.trace = trace; this.jdbc = jdbc;
     }
+
+    @PreDestroy
+    void shutdown() { pool.close(); }
 
     public record ChatReq(String chatId, String agent, String message, String mode) {}
 

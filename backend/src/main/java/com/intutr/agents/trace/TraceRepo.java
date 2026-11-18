@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 /** Writes the run / step / llm_call / approval tables. Reads for the API use `jdbc` directly. */
 @Repository
 public class TraceRepo {
-    public final JdbcTemplate jdbc;
+    private final JdbcTemplate jdbc;
     public TraceRepo(JdbcTemplate jdbc) { this.jdbc = jdbc; }
 
     public void createRun(String id, String tenant, String agent, String input, String userId, String parent, String corr, String hash, String chatId) {
