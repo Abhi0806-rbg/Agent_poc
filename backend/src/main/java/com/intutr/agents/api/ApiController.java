@@ -2,6 +2,9 @@ package com.intutr.agents.api;
 
 import com.intutr.agents.config.Cfg.*;
 import com.intutr.agents.config.ConfigRegistry;
+import com.intutr.agents.configuration.ConfigRequest;
+import com.intutr.agents.configuration.ConfigRecord;
+import com.intutr.agents.configuration.ConfigService;
 import com.intutr.agents.engine.AgentEngine;
 import com.intutr.agents.engine.AgentEngine.RunResult;
 import com.intutr.agents.engine.RunCtx;
@@ -14,6 +17,9 @@ import com.intutr.agents.tools.ToolException;
 import com.intutr.agents.tools.ToolExecutor;
 import com.intutr.agents.trace.TraceRepo;
 import java.util.*;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
@@ -34,11 +40,13 @@ public class ApiController {
     private final LlmGateway gateway;
     private final OpenAiClient openai;
     private final AnthropicClient anthropic;
+    private final ConfigService configs;
+    private final YAMLMapper configYaml = YAMLMapper.builder().propertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE).build();
 
     public ApiController(ConfigRegistry cfg, AgentEngine engine, TraceRepo trace, JdbcTemplate jdbc, ToolExecutor tools, Retrieval retrieval, EvalRunner evals,
-                         LlmGateway gateway, OpenAiClient openai, AnthropicClient anthropic) {
+                         LlmGateway gateway, OpenAiClient openai, AnthropicClient anthropic, ConfigService configs) {
         this.cfg = cfg; this.engine = engine; this.trace = trace; this.jdbc = jdbc; this.tools = tools; this.retrieval = retrieval;
-        this.evals = evals; this.gateway = gateway; this.openai = openai; this.anthropic = anthropic;
+        this.evals = evals; this.gateway = gateway; this.openai = openai; this.anthropic = anthropic; this.configs = configs;
     }
 
     private RunCtx ctx(String tenant, String user, String role) {
@@ -67,35 +75,91 @@ public class ApiController {
             Map<String, Object> m = new LinkedHashMap<>();
             Map<String, Object> s = stats.getOrDefault(a.name(), Map.of());
             m.put("name", a.name()); m.put("description", a.description()); m.put("enabled", cfg.isEnabled(a)); m.put("model", a.model());
+            m.put("source", "YAML");
             m.put("prompt", a.prompt()); m.put("tools", cfg.toolsFor(a)); m.put("skills", a.skills() == null ? List.of() : a.skills());
             m.put("suggestions", a.suggestions() == null ? List.of() : a.suggestions());
             m.put("runs24h", s.getOrDefault("runs", 0)); m.put("successRate", s.getOrDefault("success_rate", 0)); m.put("cost24h", s.getOrDefault("cost", 0));
+            out.add(m);
+        }
+        for (ConfigRecord row : configs.list(tenant, "agent")) {
+            JsonNode c = row.configuration();
+            Map<String, Object> m = new LinkedHashMap<>();
+            m.put("name", row.identifier()); m.put("description", c.path("description").asText(""));
+            m.put("enabled", "ACTIVE".equals(row.status())); m.put("model", c.path("model").asText("fast"));
+            m.put("prompt", c.path("prompt").asText("")); m.put("tools", stringList(c.path("tools")));
+            m.put("skills", stringList(c.path("skills"))); m.put("suggestions", stringList(c.path("suggestions")));
+            m.put("runs24h", 0); m.put("successRate", 0); m.put("cost24h", 0); m.put("source", row.source()); m.put("version", row.version());
             out.add(m);
         }
         return out;
     }
 
     @GetMapping("/agents/{name}")
-    public Map<String, Object> agent(@PathVariable String name) {
+    public Map<String, Object> agent(@PathVariable String name, @RequestHeader(value = T, defaultValue = "acme") String tenant) {
         AgentDef a = cfg.agent(name);
-        if (a == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        return Map.of("def", a, "yaml", cfg.agentYaml(name), "enabled", cfg.isEnabled(a), "configHash", cfg.hash(a), "limits", cfg.limits(a), "tools", cfg.toolsFor(a));
+        if (a == null) {
+            ConfigRecord db = configs.get(tenant, "agent", name);
+            return Map.of("def", db.configuration(), "yaml", db.configuration().toPrettyString(), "enabled", "ACTIVE".equals(db.status()),
+                "configHash", "db-v" + db.version(), "limits", Map.of("maxSteps", 5), "tools", stringList(db.configuration().path("tools")), "source", db.source(), "version", db.version());
+        }
+        return Map.of("def", a, "yaml", cfg.agentYaml(name), "enabled", cfg.isEnabled(a), "configHash", cfg.hash(a), "limits", cfg.limits(a), "tools", cfg.toolsFor(a), "source", "YAML");
     }
 
     @PostMapping("/agents/{name}/enabled")
-    public Map<String, Object> enabled(@PathVariable String name, @RequestBody Map<String, Object> b, @RequestHeader(value = R, defaultValue = "Developer") String role) {
+    public Map<String, Object> enabled(@PathVariable String name, @RequestBody Map<String, Object> b,
+                                       @RequestHeader(value = T, defaultValue = "acme") String tenant,
+                                       @RequestHeader(value = U, defaultValue = "developer") String user,
+                                       @RequestHeader(value = R, defaultValue = "Developer") String role) {
         Roles.require(role, "Developer", "Admin");
-        if (cfg.agent(name) == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        if (cfg.agent(name) == null) {
+            ConfigRecord row = configs.setStatus(tenant, "agent", name, Boolean.TRUE.equals(b.get("enabled")) ? "ACTIVE" : "DISABLED", user);
+            return Map.of("name", name, "enabled", "ACTIVE".equals(row.status()), "source", row.source());
+        }
         cfg.setEnabled(name, Boolean.TRUE.equals(b.get("enabled")));
         return Map.of("name", name, "enabled", cfg.isEnabled(cfg.agent(name)));
     }
 
     /** Create or update agents/<name>.yaml. Validated; rolled back if invalid. */
     @PutMapping(value = "/agents/{name}/yaml", consumes = {"text/plain", "application/yaml"})
-    public Map<String, Object> saveYaml(@PathVariable String name, @RequestBody String yaml, @RequestHeader(value = R, defaultValue = "Developer") String role) {
+    public Map<String, Object> saveYaml(@PathVariable String name, @RequestBody String yaml, @RequestHeader(value = T, defaultValue = "acme") String tenant,
+                                       @RequestHeader(value = U, defaultValue = "developer") String user, @RequestHeader(value = R, defaultValue = "Developer") String role) {
         Roles.require(role, "Developer", "Admin");
-        List<String> errs = cfg.saveAgentYaml(name, yaml);
-        return Map.of("ok", errs.isEmpty(), "errors", errs);
+        try {
+            JsonNode config = configYaml.readTree(ConfigRegistry.subst(yaml));
+            if (config == null || !name.equals(config.path("name").asText())) return Map.of("ok", false, "errors", List.of("name in config must be '" + name + "'"));
+            if (cfg.agent(name) != null) {
+                List<String> errs = cfg.saveAgentYaml(name, yaml);
+                return Map.of("ok", errs.isEmpty(), "errors", errs);
+            }
+            List<String> referenceErrors = validateDatabaseAgent(tenant, config);
+            if (!referenceErrors.isEmpty()) return Map.of("ok", false, "errors", referenceErrors);
+            String status = config.path("enabled").asBoolean(true) ? "ACTIVE" : "DISABLED";
+            ConfigRequest request = new ConfigRequest(name, config.path("description").asText(name), config, status, "Saved through Agents editor");
+            List<ConfigRecord> existing = configs.list(tenant, "agent");
+            ConfigRecord saved = existing.stream().anyMatch(x -> x.identifier().equals(name))
+                ? configs.update(tenant, "agent", name, request, user) : configs.create(tenant, "agent", request, user);
+            return Map.of("ok", true, "errors", List.of(), "source", saved.source(), "version", saved.version());
+        } catch (ResponseStatusException e) { return Map.of("ok", false, "errors", List.of(e.getReason() == null ? "invalid configuration" : e.getReason())); }
+        catch (Exception e) { return Map.of("ok", false, "errors", List.of(String.valueOf(e.getMessage()).split("\\n")[0])); }
+    }
+
+    private static List<String> stringList(JsonNode node) {
+        if (!node.isArray()) return List.of();
+        List<String> values = new ArrayList<>(); node.forEach(x -> { if (x.isTextual()) values.add(x.asText()); }); return values;
+    }
+
+    private List<String> validateDatabaseAgent(String tenant, JsonNode config) {
+        List<String> errors = new ArrayList<>();
+        String model = config.path("model").asText("");
+        if (!model.isBlank() && !cfg.models().containsKey(model) && configs.list(tenant, "model").stream().noneMatch(x -> x.identifier().equals(model))) errors.add("model '" + model + "' not found");
+        String prompt = config.path("prompt").asText(""); String promptId = prompt.split("@", 2)[0];
+        if (!prompt.isBlank() && !cfg.prompts().containsKey(prompt) && !cfg.prompts().containsKey(promptId)
+            && configs.list(tenant, "prompt").stream().noneMatch(x -> x.identifier().equals(promptId))) errors.add("prompt '" + prompt + "' not found");
+        for (String tool : stringList(config.path("tools"))) if (!cfg.tools().containsKey(tool)
+            && configs.list(tenant, "tool").stream().noneMatch(x -> x.identifier().equals(tool))) errors.add("tool '" + tool + "' not found");
+        for (String skill : stringList(config.path("skills"))) if (!cfg.skills().containsKey(skill)
+            && configs.list(tenant, "skill").stream().noneMatch(x -> x.identifier().equals(skill))) errors.add("skill '" + skill + "' not found");
+        return errors;
     }
 
     @GetMapping("/config/validate")

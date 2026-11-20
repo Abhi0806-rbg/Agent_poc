@@ -11,4 +11,7 @@
     <!-- Phase 2: adds at_risk column to v_user_progress view -->
     <include file="db/changelog/002-v-user-progress-at-risk.sql" relativeToChangelogFile="false"/>
 
+    <!-- Phase 1: user-managed configuration persistence and immutable snapshots -->
+    <include file="db/changelog/003-config-persistence.sql" relativeToChangelogFile="false"/>
+
 </databaseChangeLog>
